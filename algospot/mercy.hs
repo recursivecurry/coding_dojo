@@ -1,3 +1,5 @@
+-- ALGOSPOT - Merciful Algospot
+-- http://algospot.com/judge/problem/read/MERCY
 module Main where
 
 main :: IO ()

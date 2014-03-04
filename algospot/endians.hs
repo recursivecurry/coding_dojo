@@ -1,3 +1,5 @@
+-- ALGOSPOT - Endians
+-- http://algospot.com/judge/problem/read/ENDIANS
 module Main where
 
 import Control.Monad
