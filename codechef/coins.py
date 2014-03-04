@@ -1,3 +1,5 @@
+# CODECHEF - Prime Generator
+# http://www.codechef.com/problems/PRIME1
 final = {}
 def exchange(n):
     if n == 0:

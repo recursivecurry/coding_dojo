@@ -1,3 +1,5 @@
+# CODECHEF - Transform the Expression
+# http://www.codechef.com/problems/ONP/
 def transform(exp):
     stack = []
     result = ''

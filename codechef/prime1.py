@@ -1,5 +1,5 @@
-# PRIME1 - Python
-# AC Time: 3.10s
+# CODECHEF - Prime Generator
+# http://www.codechef.com/problems/PRIME1
 from math import sqrt
 primes = [2]
  
