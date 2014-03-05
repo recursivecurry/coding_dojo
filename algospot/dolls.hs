@@ -32,11 +32,26 @@ _select :: Int -> Int -> [Int] -> [Int] -> [Int] -> [Int]
 _select kind remained dolls (headSorted:sorted) results
     | remained >= kind * headSorted = _select (length (removeLess headSorted sorted)) (remained - (kind*headSorted)) (removeSome headSorted dolls) (removeLess headSorted sorted) (addSome headSorted dolls results)
     | remained < kind = addLast remained dolls results
-    | otherwise = _select (length (removeLess (div remained kind) (headSorted:sorted))) (remained - ((div remained kind)*kind)) (removeSome (div remained kind) dolls) (removeLess (div remained kind) (headSorted:sorted)) (addSome (div remained kind) dolls results)
+    | otherwise = _select (length (removeLess (div remained kind) (headSorted:sorted))) (remained - (div remained kind * kind)) (removeSome (div remained kind) dolls) (removeLess (div remained kind) (headSorted:sorted)) (addSome (div remained kind) dolls results)
 _select _ _ _ [] xs = xs
 
 select :: Int -> Int -> [Int] -> [Int]
 select kind remained dolls = _select kind remained dolls (sort dolls) [0|_<-dolls]
 
---main :: IO ()
---main = getLine >>= \n -> replicateM (read n) getLine >>= \acts -> mapM_ (print . echo . read) acts
+
+main :: IO ()
+main =
+    do line <- getLine
+       let caseNum = read line :: Int
+       subMain caseNum
+
+subMain :: Int -> IO()
+subMain caseNum =
+    unless  (0 == caseNum) $
+    do line1 <- getLine
+       line2 <- getLine
+       let kind = read (head (words line1)) :: Int
+           remained = read (words line1 !! 1) :: Int
+           dolls = [read x :: Int|x<-words line2]
+       print (show (select kind remained dolls))
+       subMain (caseNum-1)
