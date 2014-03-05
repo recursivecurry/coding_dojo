@@ -2,14 +2,17 @@
 -- http://algospot.com/judge/problem/read/DOLLS
 module Main where
 
+import Data.List (sort)
+import Control.Monad
+
 removeLess :: Int -> [Int] -> [Int]
-removeLess n (_:xs) = [y | y<-xs, y > n]
 removeLess _ [] = []
+removeLess n xs = [y-n | y<-xs, y > n]
 
 removeSome :: Int -> [Int] -> [Int]
 removeSome x xs = [minus y x | y <- xs]
                   where minus a b
-                            | a <= b = 0
+                            | a < b = 0
                             | otherwise = a - b
 
 addSome :: Int -> [Int] -> [Int] -> [Int]
@@ -23,11 +26,17 @@ addLast remained (doll:dolls) (result:results)
     | (&&) (remained > 0) (doll > 0) = (result+1) : addLast (remained-1) dolls results
     | remained > 0 = result : addLast remained dolls results
     | otherwise = result:results
+addLast _ _ xs = xs
 
-select :: Int -> Int -> [Int] -> [Int] -> [Int] -> [Int]
-select kind remained dolls (headSorted:sorted) results
-    | remained >= kind * headSorted = select (length (removeLess headSorted sorted)) (remained - headSorted) (removeSome headSorted dolls) (removeLess headSorted sorted) (addSome headSorted dolls results)
+_select :: Int -> Int -> [Int] -> [Int] -> [Int] -> [Int]
+_select kind remained dolls (headSorted:sorted) results
+    | remained >= kind * headSorted = _select (length (removeLess headSorted sorted)) (remained - (kind*headSorted)) (removeSome headSorted dolls) (removeLess headSorted sorted) (addSome headSorted dolls results)
     | remained < kind = addLast remained dolls results
-    | otherwise = select (length (removeLess (div remained kind) sorted)) (mod remained kind) (removeSome (div remained kind) dolls) (removeLess (div remained kind) sorted) (addSome (div remained kind) dolls results)
+    | otherwise = _select (length (removeLess (div remained kind) (headSorted:sorted))) (remained - ((div remained kind)*kind)) (removeSome (div remained kind) dolls) (removeLess (div remained kind) (headSorted:sorted)) (addSome (div remained kind) dolls results)
+_select _ _ _ [] xs = xs
 
-main = undefined
+select :: Int -> Int -> [Int] -> [Int]
+select kind remained dolls = _select kind remained dolls (sort dolls) [0|_<-dolls]
+
+--main :: IO ()
+--main = getLine >>= \n -> replicateM (read n) getLine >>= \acts -> mapM_ (print . echo . read) acts
