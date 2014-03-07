@@ -4,25 +4,29 @@ module Main where
 
 import Control.Monad
 
-check :: String -> Int -> Int -> String
-check input s e = same (take (e-s+1) (drop s input))
+mark :: [(Int, Char)] -> Int -> [Int]
+mark ((i1,x1):(i2,x2):xs) pos
+    | x1 == x2 = pos : mark ((i2,x2):xs) pos
+    | otherwise = i2 : mark ((i2,x2):xs) i2
+mark (_:[]) _ = []
 
-same :: String -> String
-same (x:xs)
-    | [] == r = "Yes"
+check :: [Int] -> Int -> Int -> String
+check xs 0 ed
+    | 0 == xs!!(ed-1) = "Yes"
     | otherwise = "No"
-    where
-        r = dropWhile (\a -> x==a) xs
-
+check xs st ed
+    | xs!!(st-1) == xs!!(ed-1) = "Yes"
+    | otherwise = "No"
 
 main :: IO ()
 main =
-    do zeroOneList <- getLine
+    do zeroOneListString <- getLine
        caseNumString <- getLine
        let caseNum = read caseNumString :: Int
+           zeroOneList = mark (zip [0..] zeroOneListString) 0
        subMain zeroOneList caseNum
 
-subMain :: String -> Int -> IO()
+subMain :: [Int] -> Int -> IO()
 subMain zeroOneList caseNum =
     unless  (0 == caseNum) $
     do startEndString <- getLine
