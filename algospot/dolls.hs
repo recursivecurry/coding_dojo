@@ -38,6 +38,10 @@ _select _ _ _ [] xs = xs
 select :: Int -> Int -> [Int] -> [Int]
 select kind remained dolls = _select kind remained dolls (sort dolls) [0|_<-dolls]
 
+printList :: [Int] -> IO ()
+printList [x] = print x
+printList (x:xs) = do putStr (show x ++ " ")
+                      printList xs
 
 main :: IO ()
 main =
@@ -53,5 +57,5 @@ subMain caseNum =
        let kind = read (head (words line1)) :: Int
            remained = read (words line1 !! 1) :: Int
            dolls = [read x :: Int|x<-words line2]
-       print (show (select kind remained dolls))
+       printList (select kind remained dolls)
        subMain (caseNum-1)
