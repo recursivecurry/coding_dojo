@@ -5,7 +5,7 @@ module Main where
 import Control.Monad
 
 mark :: [(Int, Char)] -> Int -> [Int]
-mark ((i1,x1):(i2,x2):xs) pos
+mark ((_,x1):(i2,x2):xs) pos
     | x1 == x2 = pos : mark ((i2,x2):xs) pos
     | otherwise = i2 : mark ((i2,x2):xs) i2
 mark (_:[]) _ = []
