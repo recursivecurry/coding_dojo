@@ -18,18 +18,18 @@ int main (int argc, char *argv[])
 		for (j=0; j<N; j++)
 		{
 			scanf("%lld", &last);
-			switch (last) {
-				case 2:
-					result += gt_two;
-					two++;
-					break;
-				default:
-					result += (two+gt_two);
-					gt_two++;
-					break;
-				case 0:
-				case 1:
-					break;
+			if (last<2)
+			{
+			}
+			else if (2==last)
+			{
+				result += gt_two;
+				two++;
+			}
+			else
+			{
+				result += (two+gt_two);
+				gt_two++;
 			}
 		}
 		printf("%lld\n", result);
