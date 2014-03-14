@@ -1,5 +1,6 @@
 # CODECHEF - Walk
 # http://www.codechef.com/MARCH14/problems/WALK
+
 if __name__ == '__main__':
     T = int(raw_input())
     for count in xrange(T):
