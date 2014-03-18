@@ -1,1 +1,1 @@
-cods for codechef.com
+codes for codechef.com
