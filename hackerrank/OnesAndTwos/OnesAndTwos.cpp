@@ -6,8 +6,44 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+
 using namespace std;
 
+static bool DEBUG = true;
+
+long long count_numbers(int sel, long long depth, long long pos, long long two, long long one, long long sum, long long next) {
+
+	if (DEBUG) {
+		for(long long idx=0; idx<depth; idx++)
+			printf("    ");
+		printf("%lld(%d) TWO:%lld ONE:%lld SUM:%lld NEXT:%lld\n", pos, sel, two, one, sum, next);
+	}
+	if (next <= (sum+one)) {
+		if (DEBUG) {
+			for(long long idx=0; idx<depth; idx++)
+				printf("    ");
+			printf("RETURN(A) %lld\n", (next-sum));
+		}
+		return (next-sum);
+	}
+
+	if (0==two || 0==pos) {
+		if (DEBUG) {
+			for(long long idx=0; idx<depth; idx++)
+				printf("    ");
+			printf("RETURN(B) %lld\n", (one+1));
+		}
+		return (one+1);
+	} else  {
+		long long ret = count_numbers(1, depth+1, pos-1, two-pos, one, sum+(1<<pos), next) + count_numbers(0, depth+1, pos-1, two, one, sum, sum+(1<<pos));
+		if (DEBUG) {
+			for(long long idx=0; idx<depth; idx++)
+				printf("    ");
+			printf("RETURN(*) %lld\n", ret);
+		}
+		return ret;
+	}
+}
 
 int main() {
 
@@ -20,23 +56,7 @@ int main() {
 
 		cin >> one >> two;
 
-		if (0==one && two==0)
-			count = 0;
-		else if (0==one)
-			count = 1<<(two-1);
-		else if (0==two)
-			count = one;
-		else {
-			count = (1<<two)+one;
-//			cout << count << endl;
-			for (long long idx=1; idx<(two-1); idx++) {
-//				cout << (1<<idx) << " " << one << " " << (1<<idx)-one-1 << endl;
-				exclude+=(1<<idx)- one - 1;
-			}
-		}
-
-		count-=exclude;
-
+		count = count_numbers(0, 0, two, two, one, 0, (1<<two)+one+1)-1;
 		cout << count << endl;
 	}
 
