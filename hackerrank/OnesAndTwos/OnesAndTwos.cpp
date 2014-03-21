@@ -9,7 +9,7 @@
 
 using namespace std;
 
-static bool DEBUG = true;
+static bool DEBUG = false;
 
 long long count_numbers(int sel, long long depth, long long pos, long long two, long long one, long long sum, long long next) {
 
@@ -17,6 +17,13 @@ long long count_numbers(int sel, long long depth, long long pos, long long two, 
 		for(long long idx=0; idx<depth; idx++)
 			printf("    ");
 		printf("%lld(%d) TWO:%lld ONE:%lld SUM:%lld NEXT:%lld\n", pos, sel, two, one, sum, next);
+	}
+
+	if (0 == one) {
+		return (1LL<<two)/2;
+	}
+	else if (1 == one) {
+		return (1LL<<two)+1;
 	}
 
 	if (two < 0) {
@@ -37,17 +44,24 @@ long long count_numbers(int sel, long long depth, long long pos, long long two, 
 		return (next-sum);
 	}
 
-	if (0==two || 0==pos) {
+	if (0==two) {
 		if (DEBUG) {
 			for(long long idx=0; idx<depth; idx++)
 				printf("    ");
 			printf("B=> %lld\n", (one+1));
 		}
 		return (one+1);
+	} else if (0==pos) {
+		if (DEBUG) {
+			for(long long idx=0; idx<depth; idx++)
+				printf("    ");
+			printf("B=> %lld\n", (one+1));
+		}
+		return one;
 	} else  {
 		long long ret;
-	    ret = count_numbers(1, depth+1, pos-1, two-pos, one, sum+(1<<pos), next);
-	    return ret + count_numbers(0, depth+1, pos-1, two, one, sum, (0 == ret) ? next : sum+(1<<pos));
+	    ret = count_numbers(1, depth+1, pos-1, two-pos, one, sum+(1LL<<pos), next);
+	    return ret + count_numbers(0, depth+1, pos-1, two, one, sum, (0 == ret) ? next : sum+(1LL<<pos));
 		if (DEBUG) {
 			for(long long idx=0; idx<depth; idx++)
 				printf("    ");
@@ -68,7 +82,7 @@ int main() {
 
 		cin >> one >> two;
 
-		count = count_numbers(0, 0, two, two, one, 0, (1<<two)+one+1)-1;
+		count = count_numbers(0, 0, two, two, one, 0, (1LL<<two)+one+1);
 		cout << count << endl;
 	}
 
