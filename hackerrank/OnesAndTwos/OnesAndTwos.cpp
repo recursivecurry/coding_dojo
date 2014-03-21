@@ -11,62 +11,39 @@ using namespace std;
 
 static bool DEBUG = false;
 
-long long count_numbers(int sel, long long depth, long long pos, long long two, long long one, long long sum, long long next) {
+void blank(long long depth) {
+	for(long long idx=0; idx<depth; idx++)
+		printf("    ");
+}
 
-	if (DEBUG) {
-		for(long long idx=0; idx<depth; idx++)
-			printf("    ");
-		printf("%lld(%d) TWO:%lld ONE:%lld SUM:%lld NEXT:%lld\n", pos, sel, two, one, sum, next);
-	}
+long long count_numbers(long long ord, long long two, long long one, long long sum, long long next, long long sel, long long depth) {
 
-	if (0 == one) {
-		return (1LL<<two)/2;
-	}
-	else if (1 == one) {
-		return (1LL<<two)+1;
-	}
+	if (DEBUG) { blank(depth); printf("%lld-%lld(%lld) TWO:%lld ONE:%lld SUM:%lld NEXT:%lld\n", depth, ord, sel, two, one, sum, next); }
 
 	if (two < 0) {
-		if (DEBUG) {
-			for(long long idx=0; idx<depth; idx++)
-				printf("    ");
-			printf("X=> %lld\n", 0);
-		}
+		if (DEBUG) { blank(depth); printf("X => %lld\n", -1LL); }
+		return -1;
+	}
+
+	if (next <= (sum+one+1)) {
+		if (DEBUG) { blank(depth); printf("A=> %lld\n", 0LL); }
 		return 0;
 	}
 
-	if (next <= (sum+one)) {
-		if (DEBUG) {
-			for(long long idx=0; idx<depth; idx++)
-				printf("    ");
-			printf("A=> %lld\n", (next-sum));
-		}
-		return (next-sum);
-	}
-
-	if (0==two) {
-		if (DEBUG) {
-			for(long long idx=0; idx<depth; idx++)
-				printf("    ");
-			printf("B=> %lld\n", (one+1));
-		}
-		return (one+1);
-	} else if (0==pos) {
-		if (DEBUG) {
-			for(long long idx=0; idx<depth; idx++)
-				printf("    ");
-			printf("B=> %lld\n", (one+1));
-		}
-		return one;
+	if (0==two || 0==ord) {
+		if (DEBUG) { blank(depth); printf("B=> %lld\n", (next - sum - one - 1LL)); }
+		return (next - sum - one - 1LL);
 	} else  {
 		long long ret;
-	    ret = count_numbers(1, depth+1, pos-1, two-pos, one, sum+(1LL<<pos), next);
-	    return ret + count_numbers(0, depth+1, pos-1, two, one, sum, (0 == ret) ? next : sum+(1LL<<pos));
-		if (DEBUG) {
-			for(long long idx=0; idx<depth; idx++)
-				printf("    ");
-			printf("*=> %lld\n", ret);
-		}
+	    ret = count_numbers(ord-1, two-ord, one, sum+(1LL<<ord), next, 1LL, depth+1);
+	    if (-1 == ret) {
+	    	ret = count_numbers(ord-1, two, one, sum, next, 0LL, depth+1);
+	    } else if (0 == ret) {
+	    	ret = 0;
+	    } else {
+	    	ret += count_numbers(ord-1, two, one, sum, sum+(1LL<<ord), 0LL, depth+1);
+	    }
+		if (DEBUG) { blank(depth); printf("*=> %lld\n", ret); }
 		return ret;
 	}
 }
@@ -82,7 +59,13 @@ int main() {
 
 		cin >> one >> two;
 
-		count = count_numbers(0, 0, two, two, one, 0, (1LL<<two)+one+1);
+		if (0 == one) {
+			count = (1LL<<two)/2;
+		} else if (0 == two) {
+			count = one;
+		} else {
+			count = ((1LL<<two) + one) - count_numbers(two-1, two, one, 0, (1LL<<two), 0, 0);
+		}
 		cout << count << endl;
 	}
 
