@@ -18,11 +18,21 @@ long long count_numbers(int sel, long long depth, long long pos, long long two, 
 			printf("    ");
 		printf("%lld(%d) TWO:%lld ONE:%lld SUM:%lld NEXT:%lld\n", pos, sel, two, one, sum, next);
 	}
+
+	if (two < 0) {
+		if (DEBUG) {
+			for(long long idx=0; idx<depth; idx++)
+				printf("    ");
+			printf("X=> %lld\n", 0);
+		}
+		return 0;
+	}
+
 	if (next <= (sum+one)) {
 		if (DEBUG) {
 			for(long long idx=0; idx<depth; idx++)
 				printf("    ");
-			printf("RETURN(A) %lld\n", (next-sum));
+			printf("A=> %lld\n", (next-sum));
 		}
 		return (next-sum);
 	}
@@ -31,15 +41,17 @@ long long count_numbers(int sel, long long depth, long long pos, long long two, 
 		if (DEBUG) {
 			for(long long idx=0; idx<depth; idx++)
 				printf("    ");
-			printf("RETURN(B) %lld\n", (one+1));
+			printf("B=> %lld\n", (one+1));
 		}
 		return (one+1);
 	} else  {
-		long long ret = count_numbers(1, depth+1, pos-1, two-pos, one, sum+(1<<pos), next) + count_numbers(0, depth+1, pos-1, two, one, sum, sum+(1<<pos));
+		long long ret;
+	    ret = count_numbers(1, depth+1, pos-1, two-pos, one, sum+(1<<pos), next);
+	    return ret + count_numbers(0, depth+1, pos-1, two, one, sum, (0 == ret) ? next : sum+(1<<pos));
 		if (DEBUG) {
 			for(long long idx=0; idx<depth; idx++)
 				printf("    ");
-			printf("RETURN(*) %lld\n", ret);
+			printf("*=> %lld\n", ret);
 		}
 		return ret;
 	}
