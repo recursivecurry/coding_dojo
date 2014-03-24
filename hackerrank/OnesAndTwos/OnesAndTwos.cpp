@@ -59,13 +59,7 @@ int main() {
 
 		cin >> one >> two;
 
-		if (0 == one) {
-			count = (1LL<<two)/2;
-		} else if (0 == two) {
-			count = one;
-		} else {
-			count = ((1LL<<two) + one) - count_numbers(two-1, two, one, 0, (1LL<<two), 0, 0);
-		}
+		count = ((1LL<<two) + one) - count_numbers(two-1, two, one, 0, (1LL<<two), 0, 0);
 		cout << count << endl;
 	}
 
