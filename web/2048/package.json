@@ -1,0 +1,6 @@
+{
+    "name": "puzzle-2048",
+    "main": "2048",
+    "dependencies": {
+    }
+}
