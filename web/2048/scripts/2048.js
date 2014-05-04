@@ -5,7 +5,7 @@ var orderDown = [15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0];
 var orderRight = [3,7,11,15,2,6,10,14,1,5,9,13,0,4,8,12];
 var orderLeft = [0,4,8,12,1,5,9,13,2,6,10,14,3,7,11,15];
 
-exports.Game = function () {
+var Game = new (function () {
 
     var board = empty.slice(0);
 
@@ -88,7 +88,7 @@ exports.Game = function () {
         add();
     };
 
-    this.move = function (key) {
+    this.input = function (key) {
         var idx,
             order,
             offset,
@@ -135,4 +135,41 @@ exports.Game = function () {
     {   // initialize
         add();
     }
+})();
+
+
+window.onload = function () {
+    var drawBoard = function (board) {
+        var target;
+        for (v in board) {
+            target = document.getElementById("cell"+(parseInt(v)+1));
+            if (0 === board[v]) {
+                target.style.backgroundColor = "#BBBBBB";
+                target.innerHTML = "";
+            } else {
+                target.style.backgroundColor = "#EEEEEE";
+                target.innerHTML = "<span>"+String(board[v])+"</span>";
+            }
+        }
+    };
+
+    window.addEventListener("keydown", function (event) {
+        if (38 === event.which) {
+            Game.input("k");
+        } else if (39 === event.which) {
+            Game.input("l");
+        } else if (40 === event.which) {
+            Game.input("j");
+        } else if (37 === event.which) {
+            Game.input("h");
+        }
+        drawBoard(Game.board());
+        document.getElementById("highScore").innerHTML = String(Game.board().sort().reverse()[0]);
+    });
+    document.getElementById("newButton").addEventListener("click", function () {
+        Game.new();
+        drawBoard(Game.board());
+    });
+    Game.new();
+    drawBoard(Game.board());
 };

@@ -3,76 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>2048 Game</title>
-    <script src="./2048.js"></script>
-    <style>
-        * {
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-        div {
-        }
-        .info {
-            display: block;
-            width: 450px;
-            height: 30px;
-            background-color: red;
-        }
-        .highscore {
-            display: block;
-            position: absolute;
-            left: 0px;
-            width: 200px;
-            background-color: cyan;
-            border: solid 1px;
-        }
-        .new {
-            display: block;
-            position: static;
-            margin-left: 250px;
-            width: 100px;
-            background-color: white;
-        }
-        .board {
-            width: 450px;
-            height: 450px;
-            padding: 5px;
-            background-color: gray;
-        }
-        .cell {
-            display: block;
-            width: 100px;
-            height: 100px;
-            margin: 5px;
-            padding: 10px;
-            background-color: yellow;
-            text-align: center;
-        }
-    </style>
+    <script src="scripts/2048.js"></script>
+    <link rel="stylesheet" href="./2048.css">
 </head>
 <body>
     <div>
         <header class="info">
-            <div class="highscore">100</div>
-            <div class="new"> New Game </div> 
+            <div class="highscore" id="highScore">0</div>
+            <div class="new" id="newButton"> New Game </div> 
         </div>
         <div class="board">
-            <div class="cell" id="cell1">1</div>
-            <div class="cell" id="cell2">2</div>
-            <div class="cell" id="cell3">3</div>
-            <div class="cell" id="cell4">4</div>
-            <div class="cell" id="cell5">5</div>
-            <div class="cell" id="cell6">6</div>
-            <div class="cell" id="cell7">7</div>
-            <div class="cell" id="cell8">8</div>
-            <div class="cell" id="cell9">9</div>
-            <div class="cell" id="cell10">10</div>
-            <div class="cell" id="cell11">11</div>
-            <div class="cell" id="cell12">12</div>
-            <div class="cell" id="cell13">13</div>
-            <div class="cell" id="cell14">14</div>
-            <div class="cell" id="cell15">15</div>
-            <div class="cell" id="cell16">16</div>
+            <div class="cell" id="cell1" style="top:5px; left:5px">1</div>
+            <div class="cell" id="cell2" style="top:5px; left:115px">2</div>
+            <div class="cell" id="cell3" style="top:5px; left:225px">3</div>
+            <div class="cell" id="cell4" style="top:5px; left:335px">4</div>
+            <div class="cell" id="cell5" style="top:115px; left:5px">5</div>
+            <div class="cell" id="cell6" style="top:115px; left:115px">6</div>
+            <div class="cell" id="cell7" style="top:115px; left:225px">7</div>
+            <div class="cell" id="cell8" style="top:115px; left:335px">8</div>
+            <div class="cell" id="cell9" style="top:225px; left:5px">9</div>
+            <div class="cell" id="cell10" style="top:225px; left:115px">10</div>
+            <div class="cell" id="cell11" style="top:225px; left:225px">11</div>
+            <div class="cell" id="cell12" style="top:225px; left:335px">12</div>
+            <div class="cell" id="cell13" style="top:335px; left:5px">13</div>
+            <div class="cell" id="cell14" style="top:335px; left:115px">14</div>
+            <div class="cell" id="cell15" style="top:335px; left:225px">15</div>
+            <div class="cell" id="cell16" style="top:335px; left:335px">16</div>
         </div>
     </div>
     
