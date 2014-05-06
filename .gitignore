@@ -1,5 +1,5 @@
 *.hi
 *.o
 *.exe
-*.out
+a.out
 temp
