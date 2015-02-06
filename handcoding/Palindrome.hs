@@ -1,23 +1,23 @@
 import Control.Monad
 
-type Prefix = String
+type Suffix = String
 type Input = String
 type Output = Maybe String
 type Chance = Int
 
-makePalindrome' :: Prefix -> Chance -> Input -> Output
-makePalindrome' prefix chance []
-  | chance < 0 = Nothing
-  | chance > 0 = Nothing
-makePalindrome' prefix chance input
-  | chance < 0 = Nothing
-  | otherwise = do r <- makePalindrome' firstCharacter chance ((init . tail) input)
-                   return r
-  | firstCharacter /= lastCharacter = mplus (makePalindrome' firstCharacter (chance-1) (tail input)) (makePalindrome' lastCharacter (chance-1) (init input))
-  where firstCharacter = head input
-        lastCharacter = last input
+
+makePalindrome' :: Suffix -> Chance -> Input -> Output
+makePalindrome' _ (-1) _ = Nothing
+makePalindrome' suffix chance input = case input of
+  (_:_:_) -> if (head input) /= (last input)
+             then mplus (makePalindrome' ((head input):suffix) (chance-1) (tail input))
+                        (makePalindrome' ((last input):suffix) (chance-1) (init input))
+             else makePalindrome' ((head input):suffix) chance ((init . tail) input)
+  [ic] -> Just $ (reverse suffix) ++ (replicate (chance+1) ic) ++ suffix
+  [] -> Just $ (reverse suffix) ++ (replicate chance 'a') ++ suffix
+
 
 makePalindrome :: String -> String
-makePalindrome input = case (makePalindrome' '' 1 input) of
+makePalindrome input = case (makePalindrome' "" 1 input) of
                          Nothing -> "NA"
                          Just str -> str
