@@ -3,3 +3,5 @@
 *.exe
 a.out
 temp
+.DS_Store
+.ipynb_checkpoints
