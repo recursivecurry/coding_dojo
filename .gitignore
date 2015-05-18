@@ -5,3 +5,7 @@ a.out
 temp
 .DS_Store
 .ipynb_checkpoints
+CMakeCache.txt
+cmake_install.cmake
+CMakeFiles
+Makefile
