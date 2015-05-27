@@ -24,11 +24,11 @@ def solve(n, s):
 	if check(s):
 		print("Serendipity")
 	else:
-		for p in [((r1,c1),(r2,c2)) for r1 in range(9) for c1 in range(9) for r2 in range(r1,9) for c2 in range(c1,9)]:
-			s[p[0][0]][p[0][1]], s[p[1][0]][p[1][1]] = s[p[1][0]][p[1][1]], s[p[0][0]][p[0][1]]
+		for p in [(p0, p1) for p0 in range(81) for p1 in range(p0, 81)]:
+			x1, y1, x2, y2 = p[0] // 9, p[0] % 9, p[1] // 9, p[1] % 9
+			s[x1][y1], s[x2][y2] = s[x2][y2], s[x1][y1]
 			if check(s):
-				print("({0[0]},{0[1]}) <-> ({1[0]},{1[1]})".format((p[0][0]+1,p[0][1]+1), (p[1][0]+1,p[1][1]+1)))
-			s[p[0][0]][p[0][1]], s[p[1][0]][p[1][1]] = s[p[1][0]][p[1][1]], s[p[0][0]][p[0][1]]
-
+				print("({},{}) <-> ({},{})".format(x1+1, y1+1, x2+1, y2+1))
+			s[x1][y1], s[x2][y2] = s[x2][y2], s[x1][y1]
 
 [solve(n, [[int(v) for v in input().split(' ')] for l in range(9)]) for n in range(int(input()))]
