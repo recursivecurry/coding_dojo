@@ -1,22 +1,21 @@
 # Codeforces Round #313 (Div. 1) C. Gerald and Giant Chess
 # http://codeforces.com/contest/559/problem/C
 
-import functools
-
 MAX = 10 ** 9 + 7
 
+FACT = None
 
-@functools.lru_cache()
+
+def init_fact(m):
+    global FACT
+    FACT = (m+1) * [None]
+    FACT[0] = 1
+    for n in range(1, m+1):
+        FACT[n] = FACT[n-1] * n
+
+
 def combi(t, s):
-    if (t-s) < s:
-        return combi(t, (t-s))
-    ret = 1
-    for i in range(1, s+1):
-        ret *= (t-s+i)
-        ret //= i
-        ret % MAX
-    # print("combi(", t, ", ", s, ") = ", ret)
-    return ret
+    return FACT[t] // FACT[t-s] // FACT[s]
 
 
 def solve(bs):
@@ -40,6 +39,9 @@ def solve(bs):
 
 if __name__ == "__main__":
     H, W, N = tuple(int(i) for i in input().split(' '))
+
+    init_fact(H+W)
+
     blacks = [[1, 1, 1], [H, W, combi(H+W-2, H-1)]]
 
     for i in range(N):
