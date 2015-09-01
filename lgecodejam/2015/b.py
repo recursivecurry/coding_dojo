@@ -1,23 +1,45 @@
-# LGE CODE JAM 2015 - PROBLEM B
+# -*- encoding=utf-8 -*-
+import operator as op
+import bisect as bs
+#from sortedcontainers import SortedList
 
 
-def solve():
-    N, K, W = tuple(int(n) for n in input().split())
-    PS = tuple(tuple(int(n) for n in input().split()) for l in range(N))
+def possible(points, left_out, right_out, w):
+    bottom_in = points[0][1] + w
+    top_in = points[-1][1] - w
+    left_in = left_out + w
+    right_in = right_out - w
 
-    if N-2 <= K:
-        return "YES"
+    points_y = tuple(p[1] for p in points)
+    bottom_point = bs.bisect_right(points_y, points[0][1]+w)
+    top_point = bs.bisect_left(points_y, points[-1][1]-w)
+    points_without_top_bottom = points[bottom_point:top_point]
 
-    ans = "NO"
-    sorted_ps = sorted(PS, key=lambda p:p[1])
-    for k in range(K+1):
-        target_ps = sorted_ps[k:N-(K-k)]
+    for p in points_without_top_bottom:
+        if left_in < p[0] and p[0] < right_in:
+            return False
+    return True
 
-    return ans
+def solve(n, k, w, points):
+    x_sorted_points = sorted(points, key=op.itemgetter(0, 1))
+    y_sorted_points = sorted(points, key=op.itemgetter(1, 0))
+    left_out = x_sorted_points[0][0]
+    right_out = x_sorted_points[-1][0]
+
+    for bottom_k in range(0, k+1):
+        cleaned_points = y_sorted_points[bottom_k:n-k+bottom_k]
+        if possible(cleaned_points, left_out, right_out, w):
+            return True
+        else:
+            return False
 
 
-def main():
+if __name__ == '__main__':
     T = int(input())
-    for t in range(T):
-        print(solve())
-
+    for _ in range(T):
+        N, K, W = tuple(int(n) for n in input().split())
+        PS = tuple(tuple(int(c) for c in input().split()) for i in range(N))
+        if solve(N, K, W, PS):
+            print("YES")
+        else:
+            print("NO")
