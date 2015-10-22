@@ -4,15 +4,17 @@
 module Main where
 
 import qualified Control.Monad as M
+import Data.Array
 
 
-pentagonalNumbers :: [Int]
-pentagonalNumbers = let steps = [4, 7..]
-                    in 1 : (zipWith (+) steps pentagonalNumbers)
+pentagonalNumbers :: Array Int Int
+pentagonalNumbers = listArray (1, 100000) pentagonalNumberList
+                    where pentagonalNumberList = let steps = [4, 7..]
+                                                 in 1 : (zipWith (+) steps pentagonalNumberList)
 
 solve :: IO ()
 solve = do nStr <- getLine
-           let answer = pentagonalNumbers !! ((read nStr :: Int) - 1)
+           let answer = pentagonalNumbers ! ((read nStr :: Int))
            putStrLn $ show answer
 
 
