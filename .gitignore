@@ -9,3 +9,5 @@ CMakeCache.txt
 cmake_install.cmake
 CMakeFiles
 Makefile
+__pycache__
+.*
