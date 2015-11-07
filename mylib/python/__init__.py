@@ -1,5 +1,6 @@
 
-__all__ = ['mybisect', 'tests']
+__all__ = ['mybisect', 'mysegtree', 'tests']
 
 from . import mybisect
+from . import mysegtree
 from . import tests
