@@ -29,18 +29,3 @@ def bisect_right(a, x, lo=0, hi=None):
         else:
             lo = mid + 1
     return lo
-
-
-if __name__ == "__main__":
-    sample = [0, 5, 5, 10, 10, 10, 15, 20]
-    print(sample)
-    print("TARGET: 7")
-    print(bisect.bisect_left(sample, 7))
-    print(bisect_left(sample, 7))
-    print(bisect.bisect_right(sample, 7))
-    print(bisect_right(sample, 7))
-    print("TARGET: 10")
-    print(bisect.bisect_left(sample, 10))
-    print(bisect_left(sample, 10))
-    print(bisect.bisect_right(sample, 10))
-    print(bisect_right(sample, 10))

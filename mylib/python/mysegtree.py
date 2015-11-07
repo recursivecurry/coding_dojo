@@ -17,7 +17,6 @@ class SegmentTree:
         c = c // 2
         while 0 < c:
             self._tree[c] = self.__fn(self._tree[c*2], self._tree[c*2+1])
-            print(self._tree[c], self._tree[c*2], self._tree[c*2+1])
             c = c // 2
 
     def get(self, lo, hi=None):

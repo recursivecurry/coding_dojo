@@ -55,7 +55,6 @@ class TestBisect(unittest.TestCase):
         self.assertEqual(sum_odd_update_tree.get(0, 3), 9)
         self.assertEqual(sum_odd_update_tree.get(1, 2), 4)
         sum_odd_update_tree.update(2, 5)
-        print(max_even_update_tree._tree)
         self.assertEqual(sum_odd_update_tree.get(0, 1), 3)
         self.assertEqual(sum_odd_update_tree.get(0, 3), 10)
         self.assertEqual(sum_odd_update_tree.get(1, 2), 5)
