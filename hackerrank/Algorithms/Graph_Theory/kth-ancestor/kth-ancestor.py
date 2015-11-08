@@ -1,10 +1,8 @@
-from collections import deque, defaultdict
-
 class Node:
     def __init__(self, name, level, parent):
         self.name = name
         self.level = level
-        self.ancestor = [parent] if parent is not None else []
+        self.ancestor = [] if parent is None else [parent]
         self.fill_ancestor()
 
     def fill_ancestor(self):
@@ -22,31 +20,11 @@ class Node:
         else:
             return None
 
-    def __repr__(self):
-        return "{{name: {}, level: {}, ancestor: {}}}".format(self.name, self.level, [a.name for a in self.ancestor if a is not None])
-
-
-def build_tree(edges):
-    root = Node(edges.pop(0).pop(), 0, None)
-    tree = {root.name: root}
-    next_queue = deque([root])
-    while next_queue:
-        current = next_queue.popleft()
-        for child in edges[current.name]:
-            node = Node(child, current.level+1, current)
-            tree[child] = node
-            next_queue.append(node)
-    return tree
-
-
-def interpret(tree, *args):
-    if args[0] == 0:
-        tree[args[2]] = Node(args[2], tree[args[1]].level+1, tree[args[1]])
-    elif args[0] == 1:
-        tree.pop(args[1])
-    elif args[0] == 2:
-        ancestor = tree[args[1]].kth_ancestor(args[2]) if args[1] in tree.keys() else None
-        print(0 if ancestor is None else ancestor.name)
+#    def __repr__(self):
+#        return "{{name:{},level:{},ready:{},ancestor:{}}}".format(self.name,
+#                                                                  self.level,
+#                                                                  self.ready,
+#                                                                  [a.name for a in self.ancestor if a is not None])
 
 
 def main():
@@ -54,16 +32,23 @@ def main():
     for _ in range(T):
         P = int(input())
 
-        edges = defaultdict(list)
-        for _ in range(P):
+        X, Y = tuple(int(v) for v in input().split())
+        root = Node(X, 0, None)
+        tree = {root.name: root}
+        for _ in range(P-1):
             X, Y = tuple(int(v) for v in input().split())
-            edges[Y].append(X)
-
-        tree = build_tree(edges)
-
+            node = Node(X, tree[Y].level+1, tree[Y])
+            tree[X] = node
         Q = int(input())
         for _ in range(Q):
-            interpret(tree, *tuple(int(v) for v in input().split()))
+            cmd = tuple(int(v) for v in input().split())
+            if cmd[0] == 0:
+                tree[cmd[2]] = Node(cmd[2], tree[cmd[1]].level+1, tree[cmd[1]])
+            elif cmd[0] == 1:
+                tree.pop(cmd[1])
+            elif cmd[0] == 2:
+                ancestor = tree[cmd[1]].kth_ancestor(cmd[2]) if cmd[1] in tree.keys() else None
+                print(0 if ancestor is None else ancestor.name)
 
 
 if __name__ == "__main__":
