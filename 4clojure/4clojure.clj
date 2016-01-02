@@ -341,3 +341,33 @@
 (= (set (fifty [1 :a 2 :b 3 :c])) #{[1 2 3] [:a :b :c]})
 (= (set (fifty [:a "foo" "bar" :b])) #{[:a :b] ["foo" "bar"]})
 (= (set (fifty [[1 2] :a [3 4] 5 6 :b])) #{[[1 2] [3 4]] [:a :b] [5 6]})
+
+; 51
+(= [1 2 [3 4 5] [1 2 3 4 5]] (let [[a b & c :as d] [1 2 3 4 5]] [a b c d]))
+
+; 52
+(= [2 4] (let [[a b c d e] [0 1 2 3 4]] [c e]))
+
+; 53
+(def fifty-three
+  (fn [xs]
+    (let [f1 (fn f1 [xs]
+               (if (= xs '())
+                 '()
+                 (cons (list (first xs)) (map (partial cons (first xs)) (f1 (rest xs))))))
+          f2 (fn f2 [xs]
+               (if (= xs '())
+                 '()
+                 (concat (f1 xs) (f2 (rest xs)))))
+          f3 (fn f3 [xs]
+               (filter #(and (apply < %1) (< 1 (count %1))) (f2 xs)))
+          f4 (fn f4 [xs]
+               (first (sort #(compare (count %2) (count %1)) (f3 xs))))
+          ans (f4 xs)]
+      (if (nil? ans) '() ans))))
+
+(= (fifty-three [1 0 1 2 3 0 4 5]) [0 1 2 3])
+(= (fifty-three [5 6 1 3 2 7]) [5 6])
+(= (fifty-three [2 3 3 4 5]) [3 4 5])
+(= (fifty-three [7 6 5 4]) [])
+(= (fifty-three [7 6 5 4]) [])
