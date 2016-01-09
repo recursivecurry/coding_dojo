@@ -371,3 +371,22 @@
 (= (fifty-three [2 3 3 4 5]) [3 4 5])
 (= (fifty-three [7 6 5 4]) [])
 (= (fifty-three [7 6 5 4]) [])
+
+; 54
+(def fifty-four
+  (fn foo [n xs]
+    (if (< (count xs) n)
+      '()
+      (cons (take n xs) (foo n (drop n xs))))))
+
+(= (fifty-four 3 (range 9)) '((0 1 2) (3 4 5) (6 7 8)))
+(= (fifty-four 2 (range 8)) '((0 1) (2 3) (4 5) (6 7)))
+(= (fifty-four 3 (range 8)) '((0 1 2) (3 4 5)))
+
+; 55
+(def fifty-five
+  (fn foo [xss]
+    (if (empty? xss)
+      {}
+      (let [[x xs] ((juxt first rest) xss)]
+        (conj (foo (filter #(not= x %) xs)) [x (count (filter #(= x %) xss))])))))
