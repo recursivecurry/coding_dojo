@@ -390,3 +390,32 @@
       {}
       (let [[x xs] ((juxt first rest) xss)]
         (conj (foo (filter #(not= x %) xs)) [x (count (filter #(= x %) xss))])))))
+
+; 56
+(def fifty-six
+  (fn dist [xs]
+    (if (empty? xs)
+      '()
+      (cons (first xs) (dist (filter #(not= (first xs) %) xs))))))
+
+(= (fifty-six [1 2 1 3 1 2 4]) [1 2 3 4])
+(= (fifty-six [:a :a :b :b :c :c]) [:a :b :c])
+(= (fifty-six '([2 4] [1 2] [1 3] [1 3])) '([2 4] [1 2] [1 3]))
+(= (fifty-six (range 50)) (range 50))
+
+; 57
+(def fifty-seven '(5 4 3 2 1))
+
+( = fifty-seven ((fn foo [x] (when (> x 0) (conj (foo (dec x)) x))) 5))
+
+; 58
+(def fifty-eight
+  (fn cp [f & fs]
+    (if (nil? fs)
+      (fn [& i] (apply f i))
+      (fn [& i] (f (apply (apply cp fs) i))))))
+
+(= [3 2 1] ((fifty-eight rest reverse) [1 2 3 4]))
+(= 5 ((fifty-eight (partial + 3) second) [1 2 3 4]))
+(= true ((fifty-eight zero? #(mod % 8) +) 3 5 7 9))
+(= "HELLO" ((fifty-eight #(.toUpperCase %) #(apply str %) take) 5 "hello world"))
