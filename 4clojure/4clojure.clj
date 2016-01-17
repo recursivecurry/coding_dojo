@@ -419,3 +419,27 @@
 (= 5 ((fifty-eight (partial + 3) second) [1 2 3 4]))
 (= true ((fifty-eight zero? #(mod % 8) +) 3 5 7 9))
 (= "HELLO" ((fifty-eight #(.toUpperCase %) #(apply str %) take) 5 "hello world"))
+
+; 59
+(def fifty-nine
+  (fn [& fns]
+    (fn [& args]
+          (map #(apply %1 args) fns))))
+
+(= [21 6 1] ((fifty-nine + max min) 2 3 5 1 6 4))
+(= ["HELLO" 5] ((fifty-nine #(.toUpperCase %) count) "hello"))
+(= [2 6 4] ((fifty-nine :a :c :b) {:a 2, :b 4, :c 6, :d 8 :e 10}))
+
+; 60
+(def sixty
+  (letfn [(rd [func acc [x & xs :as xss]]
+            (lazy-seq (if-let [s (seq xss)]
+                        (cons acc (rd func (func acc x) xs))
+                        (list acc))))]
+    (fn
+      ([func fst others] (rd func fst others))
+      ([func [fst & others]] (rd func fst others)))))
+
+(= (take 5 (sixty + (range))) [0 1 3 6 10])
+(= (sixty conj [1] [2 3 4]) [[1] [1 2] [1 2 3] [1 2 3 4]])
+(= (last (sixty * 2 [3 4 5])) (reduce * 2 [3 4 5]) 120)
