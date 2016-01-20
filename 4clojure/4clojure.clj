@@ -443,3 +443,12 @@
 (= (take 5 (sixty + (range))) [0 1 3 6 10])
 (= (sixty conj [1] [2 3 4]) [[1] [1 2] [1 2 3] [1 2 3 4]])
 (= (last (sixty * 2 [3 4 5])) (reduce * 2 [3 4 5]) 120)
+
+; 61
+(def sixty-one
+  (fn [ks vs]
+      (reduce conj {} (map #(vector %1 %2) ks vs))))
+
+(= (sixty-one [:a :b :c] [1 2 3]) {:a 1, :b 2, :c 3})
+(= (sixty-one [1 2 3 4] ["one" "two" "three"]) {1 "one", 2 "two", 3 "three"})
+(= (sixty-one [:foo :bar] ["foo" "bar" "baz"]) {:foo "foo", :bar "bar"})
