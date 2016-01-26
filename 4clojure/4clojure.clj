@@ -452,3 +452,11 @@
 (= (sixty-one [:a :b :c] [1 2 3]) {:a 1, :b 2, :c 3})
 (= (sixty-one [1 2 3 4] ["one" "two" "three"]) {1 "one", 2 "two", 3 "three"})
 (= (sixty-one [:foo :bar] ["foo" "bar" "baz"]) {:foo "foo", :bar "bar"})
+
+; 62
+(def sixty-two (fn it [f i]
+                 (lazy-seq (cons i (it f (f i))))))
+
+(= (take 5 (sixty-two #(* 2 %) 1)) [1 2 4 8 16])
+(= (take 100 (sixty-two inc 0)) (take 100 (range)))
+(= (take 9 (sixty-two #(inc (mod % 3)) 1)) (take 9 (cycle [1 2 3])))
