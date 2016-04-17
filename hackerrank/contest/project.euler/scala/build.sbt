@@ -10,6 +10,6 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 // Uncomment to use Akka
 //libraryDependencies += "com.typesafe.akka" %% "akka-actor" % "2.3.11"
 
-
+connectInput in run := true
 
 fork in run := true

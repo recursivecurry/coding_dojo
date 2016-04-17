@@ -3,39 +3,39 @@ package euler
 import scala.annotation.tailrec
 import scala.io.StdIn
 
-/**
-  * Created by jongsoo.lee on 2016. 4. 17..
-  */
 object Euler012 {
 
-  def numberOfDivisor(number: Int): Int = {
+  def numberOfDivisor(number: Long): Long = {
     @tailrec
-    def numberOfDivosorTail(number: Int, count: Int, divisor: Int = 2): Int = {
+    def numberOfDivosorTail(number: Long, divisors: Long, divisor: Long, count: Long): Long = {
       number match {
-        case 1 => count
-        case number if number % divisor == 0 => numberOfDivosorTail(number / divisor, count+1, divisor)
-        case _ => numberOfDivosorTail(number, count, if (divisor==2) 3 else divisor + 2)
+        case 1L => divisors * (count + 1)
+        case number if number % divisor == 0 => numberOfDivosorTail(number / divisor, divisors, divisor, count + 1)
+        case _ => numberOfDivosorTail(number, divisors * (count + 1), if (divisor==2L) 3L else divisor + 2L, 0)
       }
     }
-    val ans = numberOfDivosorTail(number, 1, 2)
-    ans
+    numberOfDivosorTail(number, 1L, 2L, 0L)
   }
 
-  def nthTriangleNumber(n: Int): Int = n * (n+1) / 2
+  def nthTriangleNumber(n: Long): Long = n * (n+1L) / 2L
 
-  def numberOfDivisorOfnthTriangleNum(n: Int): Int = {
-    if (n % 2 == 0)
-      numberOfDivisor(n/2) * numberOfDivisor(n+1)
-    else
-      numberOfDivisor(n) * numberOfDivisor((n+1)/2)
-  }
-
-  def solve(minimum: Int): Int = {
-    Stream.from(1).find(minimum < numberOfDivisorOfnthTriangleNum(_)).map(nthTriangleNumber).get
+  def solve(minimum: Long): Long = {
+    @tailrec
+    def solve2Tail(n: Long, lnum: Long, rnum: Long): Long = {
+      if (minimum < lnum * rnum) {
+        n
+      } else {
+        if (n % 2 == 0)
+          solve2Tail(n+1, rnum, numberOfDivisor((n+2)/2))
+        else
+          solve2Tail(n+1, rnum, numberOfDivisor(n+2))
+      }
+    }
+    nthTriangleNumber(solve2Tail(1, 1, 1))
   }
 
   def main(args: Array[String]): Unit = {
     val T = StdIn.readInt()
-    (0 until T).foreach((_) => println(solve(StdIn.readInt())))
+    (0 until T).foreach((_) => println(solve(StdIn.readLong())))
   }
 }
