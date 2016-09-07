@@ -1,4 +1,4 @@
-# (만드라고라 숲)[https://www.hackerrank.com/challenges/mandragora]
+# [만드라고라의 숲](https://www.hackerrank.com/challenges/mandragora)
 
 ## 문제
 
