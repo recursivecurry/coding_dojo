@@ -24,8 +24,8 @@ def bisect_right(a, x, lo=0, hi=None):
 
     while (lo < hi):
         mid = (lo + hi) // 2
-        if x < a[mid]:
-            hi = mid
-        else:
+        if a[mid] <= x:
             lo = mid + 1
+        else:
+            hi = mid
     return lo
