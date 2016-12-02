@@ -4,29 +4,20 @@ import java.util.List;
 import java.util.Map;
 
 public class Primes {
-    private Map<Integer,List<Integer>> known = new HashMap<>();
-    private int current = 2;
+    private Map<Long,List<Long>> known = new HashMap<>();
+    private long current = 2;
 
-    public int next() {
+    public long next() {
         while (known.containsKey(current)) {
-            for (Integer prime : known.get(current)) {
-                known.compute(current + prime,
-                        (k, v) -> {
-                            if (v == null) {
-                                List<Integer> primeList = new ArrayList<>();
-                                primeList.add(prime);
-                                return primeList;
-                            } else {
-                                v.add(prime);
-                                return v;
-                            }
-                        });
+            for (Long prime : known.get(current)) {
+                List<Long> primes = known.getOrDefault(current+prime, new ArrayList<>());
+                primes.add(prime);
+                known.put(current+prime, primes);
             }
+            known.remove(current);
             current++;
         }
-        List<Integer> thisPrimes = new ArrayList<>();
-        thisPrimes.add(current);
-        known.put(current * current, thisPrimes);
+        known.put(current * current, new ArrayList<Long>(){{add(current);}});
         return current++;
     }
 
