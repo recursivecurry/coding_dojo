@@ -7,7 +7,24 @@
  * user guide available at https://docs.gradle.org/2.13/userguide/tutorial_java_projects.html
  */
 
+buildscript {
+    repositories {
+        maven {
+            url "https://maven.eveoh.nl/content/repositories/releases"
+        }
+    }
+
+    dependencies {
+        classpath "nl.eveoh:gradle-aspectj:1.6"
+    }
+}
+
 apply plugin: 'java'
+
+project.ext {
+    aspectjVersion = '1.8.4'
+}
+apply plugin: 'aspectj'
 
 sourceCompatibility = 1.8
 
@@ -17,6 +34,15 @@ repositories {
 
 dependencies {
     compileOnly "org.projectlombok:lombok:1.16.10"
+
+    compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'org.apache.commons:commons-collections4:4.1'
+    compile 'org.apache.commons:commons-math3:3.6.1'
+    compile 'org.apache.commons:commons-beanutils:1.9.3'
+    compile 'org.apache.commons:commons-primitives:1.0'
+    compile 'org.apache.commons:commons-io:2.5'
+
+    compile 'io.javaslang:javaslang:2.0.5'
 
     compile 'org.slf4j:slf4j-api:1.7.21'
     compile 'org.slf4j:slf4j-simple:1.7.21'
