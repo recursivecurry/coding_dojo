@@ -13,3 +13,4 @@ Makefile
 __pycache__
 .*
 target
+cmake-build-*
