@@ -2,8 +2,6 @@ package solution
 
 import (
 	"sort"
-	"fmt"
-	"strings"
 )
 
 type Row struct {
@@ -62,4 +60,3 @@ func granularity(t, gra string) string {
 		return t
 	}
 }
-
