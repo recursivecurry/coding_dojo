@@ -43,10 +43,10 @@ func countArrangement(N int) int {
 //	for i := 1; i<=N; i++ {
 //		available[i] = struct{}{}
 //	}
-
-	candidates := buildCandidates(N)
-	return search(1, N, []int{}, candidates, available)
-}
+//
+//	candidates := buildCandidates(N)
+//	return search(1, N, []int{}, candidates, available)
+//}
 
 func search(step, n int, cur []int, can map[int][]int, ava map[int]struct{}) int {
 	if step > n {
