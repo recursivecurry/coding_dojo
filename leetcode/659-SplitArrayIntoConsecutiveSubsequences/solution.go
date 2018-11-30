@@ -1,5 +1,12 @@
+package main
+
+import (
+	"container/heap"
+	"fmt"
+)
+
 type sub struct {
-	last int
+	last   int
 	length int
 }
 
@@ -31,18 +38,14 @@ func (s *subs) Pop() interface{} {
 func isPossible(nums []int) bool {
 	hp := &subs{}
 	for _, n := range nums {
-		for {
-			if hp.Len() > 0 && (*hp)[0].last + 1 < n {
-				if (*hp)[0].length < 3 {
-					return false
-				} else {
-					heap.Pop(hp)
-				}
+		for hp.Len() > 0 && (*hp)[0].last+1 < n {
+			if (*hp)[0].length < 3 {
+				return false
 			} else {
-				break
+				heap.Pop(hp)
 			}
 		}
-		if hp.Len() > 0 && (*hp)[0].last + 1 == n {
+		if hp.Len() > 0 && (*hp)[0].last+1 == n {
 			s := heap.Pop(hp).(sub)
 			s.last++
 			s.length++
@@ -57,4 +60,8 @@ func isPossible(nums []int) bool {
 		}
 	}
 	return true
+}
+
+func main() {
+	fmt.Println(isPossible([]int{1, 2, 3, 3, 4, 5}))
 }
