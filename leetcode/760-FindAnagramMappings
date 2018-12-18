@@ -1,0 +1,10 @@
+func anagramMappings(A []int, B []int) []int {
+  m := make(map[int]int, len(A))
+  for i, n := range B {
+    m[n] = i
+  }
+  for i, n := range A {
+    A[i] = m[n]
+  }
+  return A
+}
