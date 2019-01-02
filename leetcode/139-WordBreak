@@ -1,0 +1,19 @@
+func wordBreak(s string, wordDict []string) bool {
+  wordSet := map[string]struct{}{}
+  for _, w := range wordDict {
+    wordSet[w] = struct{}{}
+  }
+  starts := make([]bool, len(s)+1)
+  starts[0] = true
+  for i:=1; i<=len(s); i++ {
+    for j:=0; j<i; j++ {
+      if starts[j] {
+        if _, ok := wordSet[s[j:i]]; ok {
+          starts[i] = true
+          break
+        }
+      }
+    }
+  }
+  return starts[len(s)]
+}
