@@ -8,12 +8,12 @@ impl Solution {
         // let dict = order.chars().zip("abcdefghijklmnopqrstuvwxyz".chars()).collect::<HashMap<char, char>>();
         let mut dict2: Vec<char> = vec![' '; 26];
         order.chars().enumerate().for_each(|(i, v)| {
-            dict2[(v as u8 - 'a' as u8) as usize] = ('a' as u8 + i as u8) as char;
+            dict2[v as usize - 'a' as usize] = ('a' as u8 + i as u8) as char;
         });
         let sorted = words.iter().map(|a| {
             a.chars().map(|c| {
                 // dict.get(&c).unwrap()
-                dict2.get((c as u8 - 'a' as u8) as usize).unwrap()
+                dict2.get(c as usize - 'a' as usize).unwrap()
             }).collect::<String>()
         }).collect::<Vec<String>>();
 
