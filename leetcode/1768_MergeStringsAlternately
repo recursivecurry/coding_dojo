@@ -1,0 +1,43 @@
+struct Solution;
+
+impl Solution {
+    pub fn merge_alternately(word1: String, word2: String) -> String {
+        let mut i1 = word1.chars().into_iter();
+        let mut i2 = word2.chars().into_iter();
+        let mut s = String::new();
+
+        loop {
+            match (i1.next(), i2.next()) {
+                (Some(c1), Some(c2)) => { s.push(c1); s.push(c2);},
+                (Some(c1), None) => s.push(c1),
+                (None, Some(c2)) => s.push(c2),
+                _ => break,
+            }
+        }
+        s
+    }
+}
+
+fn main() {
+}
+
+#[cfg(test)]
+mod test {
+    use super::Solution;
+
+    #[test]
+    fn test_merge_alternately() {
+        assert_eq!(
+            Solution::merge_alternately(String::from("abc"), String::from("pqr")),
+            String::from("apbqcr")
+        );
+        assert_eq!(
+            Solution::merge_alternately(String::from("ab"), String::from("pqrs")),
+            String::from("apbqrs")
+        );
+        assert_eq!(
+            Solution::merge_alternately(String::from("abcd"), String::from("pq")),
+            String::from("apbqcd")
+        );
+    }
+}
