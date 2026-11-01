@@ -1,0 +1,6 @@
+[project]
+name = "curry-coding-agent-lab"
+version = "0.1.0"
+requires-python = ">=3.11"
+description = "Two-week coding agent harness learning lab"
+dependencies = []

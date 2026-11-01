@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "run_id": "",
+  "task_id": "",
+  "repo_hash": "",
+  "model": "",
+  "policy_version": "",
+  "completed": [],
+  "changed_files": [],
+  "checks": [],
+  "pending_actions": [],
+  "next_actions": [],
+  "remaining_steps": 0,
+  "provider_state_path": null
+}

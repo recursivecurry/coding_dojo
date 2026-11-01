@@ -1,0 +1,44 @@
+[
+  {
+    "id": "task-01",
+    "split": "dev",
+    "title": "빈 입력 panic 수정",
+    "prompt": "GET /first에서 ids 미지정·빈 문자열이면 panic 없이 400을 반환하라. ids=a,b는 JSON first=a를 유지하라.",
+    "test": "TestEmptyIDs"
+  },
+  {
+    "id": "task-02",
+    "split": "dev",
+    "title": "페이지네이션",
+    "prompt": "GET /items에 offset·limit을 추가하라. 기본값은 0·5, offset은 0 이상, limit은 1~5의 정수만 허용한다. 잘못된 값은 400, 범위 밖 offset은 JSON 빈 배열을 반환하라.",
+    "test": "TestPagination"
+  },
+  {
+    "id": "task-03",
+    "split": "dev",
+    "title": "오류 응답 통일",
+    "prompt": "GET /lookup?id=missing에서 404와 application/json, {\"error\":{\"code\":\"not_found\",\"message\":\"not found\"}}를 반환하라. id=1의 정상 응답은 유지하라.",
+    "test": "TestErrorEnvelope"
+  },
+  {
+    "id": "task-04",
+    "split": "dev",
+    "title": "내부 함수 추출",
+    "prompt": "service.go의 /health 처리 함수를 health.go의 비공개 healthHandler로 추출하라. 라우트 등록은 service.go에 두고 GET /health의 JSON status=ok를 유지하라.",
+    "test": "TestHealthRefactor"
+  },
+  {
+    "id": "task-05",
+    "split": "holdout",
+    "title": "입력 정규화",
+    "prompt": "GET /first의 ids를 쉼표로 나누고 공백을 제거하며 빈 요소를 무시하라. 첫 비어 있지 않은 요소를 반환하고 전부 비었으면 400을 반환하라. a,b 정상 응답을 유지하라.",
+    "test": "TestNormalizeIDs"
+  },
+  {
+    "id": "task-06",
+    "split": "holdout",
+    "title": "HTTP 메서드 제한",
+    "prompt": "/health는 GET만 허용하고 POST/PUT/DELETE는 405와 Allow: GET을 반환하라. GET의 JSON status=ok를 유지하라.",
+    "test": "TestMethodGuard"
+  }
+]
